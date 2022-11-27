@@ -14,7 +14,7 @@ class Users (models.Model):
     id = models.AutoField(primary_key=True)
     user = models.CharField(max_length=200);
     def __str__(self):
-        return self.company;
+        return self.user;
 
 
 class demousers (models.Model):

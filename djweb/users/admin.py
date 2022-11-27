@@ -8,3 +8,4 @@ from blog.models import Posts
 admin.site.register(Profile)
 admin.site.register(Posts)
 admin.site.register(demousers)
+admin.site.register(Users)
