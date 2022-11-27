@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<form method="get" action="{% url 'search_users' %}">
+    <label for="search"><b>USER NAME: <b></label>
+    <input id="search" type="text" name="q" placeholder="username..">
+    <button class="btn btn-info" type="submit">
+        Find
+    </button>
+</form>
+
+
+<div class="display">
+    {% if company %}
+    <h3>Search : <i>{{user}}</i></h3>
+    <h3>First Name : <i>{{first_name}}</i></h3>
+    <h3>Last Name : <i>{{last_name}}</i></h3>
+    {% elif query %}
+    <h3> The user '{{query|safe}}' You searched for is not Part of Organization</h3>
+    {% else %}
+
+    {% endif %}
+</div>
+{% endblock content %}

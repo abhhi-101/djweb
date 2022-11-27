@@ -8,3 +8,17 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} profile'
+
+
+class Users (models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200);
+    def __str__(self):
+        return self.company;
+
+
+class demousers (models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(to=Users,on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
