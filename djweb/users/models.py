@@ -13,6 +13,8 @@ class Profile(models.Model):
 class Users (models.Model):
     id = models.AutoField(primary_key=True)
     user = models.CharField(max_length=200);
+    first_name = models.CharField(max_length=100,default="none")
+    last_name = models.CharField(max_length=100, default="none")
     def __str__(self):
         return self.user;
 
