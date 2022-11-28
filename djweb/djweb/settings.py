@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'djongo',
+    'werkzeug_debugger_runserver',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+WERKZEUG_DEBUG_PIN = 'off'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
