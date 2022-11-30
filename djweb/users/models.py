@@ -8,15 +8,17 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} profile'
+    def save(self):
+        super().save()
 
 
 class Users (models.Model):
     id = models.AutoField(primary_key=True)
-    user = models.CharField(max_length=200);
+    user = models.CharField(max_length=200)
     first_name = models.CharField(max_length=100,default="none")
     last_name = models.CharField(max_length=100, default="none")
     def __str__(self):
-        return self.user;
+        return self.user
 
 
 class demousers (models.Model):

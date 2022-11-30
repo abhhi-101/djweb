@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'djongo',
+    'pymongo',
     #'werkzeug_debugger_runserver',
     'crispy_forms',
     'django.contrib.admin',

@@ -2,24 +2,39 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from users.models import Users, login
 import requests
-import shutil
+import pymongo
+
+## connecting to db for Pymongo
+client = pymongo.MongoClient('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0')
+dbname = client['inj']
+db_users = dbname['users']
+
+def nosql(request):
+    user = request.GET.get('user')
+    password = request.GET.get('pass')
+    if user:
+        result = bool(db_users.find_one({"$where": "this.name == '" + user + "' && this.type == '" + password + "' " }))
+        if result == True:
+            announce = "You are a valid user!"
+        else:
+            announce = "Who are you?"
+        context = {
+            "result" : announce
+        }       
+        return render(request, 'inj/nosql.html', context)
+    else:
+        return render(request, 'inj/nosql.html')
+
+
 
 # Create your views here.
-
 def home(request):
     context = {
         'title':'Home page baby'
     }
     return render(request, 'blog/home.html', context)
 
-def about(request):
-    context = {
-        'title': 'Blogging using template',
-        'post' : 'posts'
-    }
-    return render(request, 'blog/about.html', context)
-
-
+# vulnerable to XSS
 def searchusers(request):
     if request.user.is_authenticated:
         q=request.GET.get('q','')
@@ -32,7 +47,7 @@ def searchusers(request):
     else:
         return redirect('login')
 
-
+# vulnerable to SSRF
 def ssrf(request):
     if request.user.is_authenticated:
         url = request.POST.get('imgUrl')

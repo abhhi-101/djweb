@@ -2,8 +2,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-
 <form method="get" action="{% url 'search_users' %}">
     <label for="search"><b>USER NAME: <b></label>
     <input id="search" type="text" name="q" placeholder="username..">
@@ -11,7 +9,6 @@
         Find
     </button>
 </form>
-
 
 <div class="display">
     {% if user_searched %}
