@@ -24,3 +24,8 @@ class demousers (models.Model):
     user = models.ForeignKey(to=Users,on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+
+class login(models.Model):
+    id = models.AutoField(primary_key=True)
+    user=models.CharField(max_length=200)
+    password=models.CharField(max_length=300)
