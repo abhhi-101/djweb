@@ -2,18 +2,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
 from users.models import Users, login
 import requests
+import shutil
 import pymongo
 
 ## connecting to db for Pymongo
 client = pymongo.MongoClient('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0')
-dbname = client['inj']
-db_users = dbname['users']
+dbname = client['djweb']
+db_login = dbname['users_login']
 
+# vulnerable to NoSQL injection
 def nosql(request):
-    user = request.GET.get('user')
-    password = request.GET.get('pass')
+    print(request)
+    user = request.POST.get('user')
+    password = request.POST.get('pass')
     if user:
-        result = bool(db_users.find_one({"$where": "this.name == '" + user + "' && this.type == '" + password + "' " }))
+        result = bool(db_login.find_one({"$where": "this.user == '" + user + "' && this.password == '" + password + "' " }))
         if result == True:
             announce = "You are a valid user!"
         else:
@@ -21,11 +24,32 @@ def nosql(request):
         context = {
             "result" : announce
         }       
-        return render(request, 'inj/nosql.html', context)
+        return render(request, 'blog/nosql.html', context)
     else:
-        return render(request, 'inj/nosql.html')
+        return render(request, 'blog/nosql.html')
+
+# vulnerable to Account-takeover due to lack of validation
+def passwordreset(request):
+    if request.user.is_authenticated:
+        user = request.POST.get('user','')
+        new_password = request.POST.get('npass','')
+        print(user)
+        print(new_password)
+        if user:
+            change_from = {"user":user}
+            change_to = {"$set": {"password":new_password}}
+            db_login.update(change_from,change_to)
+            content = {
+                'result':" Password Changed"
+            }
+            return render(request, 'blog/password-reset.html', content)
+        else:
+            return render(request, 'blog/password-reset.html')
 
 
+        
+    else:
+        return redirect('login')
 
 # Create your views here.
 def home(request):
@@ -62,15 +86,17 @@ def ssrf(request):
             open("img", "wb").write(res.content)
             print(res.content)
             content = {
-                'response' : res.content 
+                'response' : res.content,
+                'message' : "Image sucessfully Downloaded" + filename
             }
-            '''with open(file_name,'wb') as f:
+            with open(file_name,'wb') as f:
                 shutil.copyfileobj(res.raw, f)
             print('Image sucessfully Downloaded: ',file_name)
         else:
-            print('Image Couldn\'t be retrieved')'''
+            print('Image Couldn\'t be retrieved')
         
     return render(request, 'blog/ssrf.html', content)
+
 
 
 """def nosql(request):

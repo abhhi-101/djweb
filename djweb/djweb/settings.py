@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'djongo',
     'pymongo',
-    #'werkzeug_debugger_runserver',
+    'werkzeug_debugger_runserver',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
