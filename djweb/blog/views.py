@@ -87,7 +87,7 @@ def ssrf(request):
             print(res.content)
             content = {
                 'response' : res.content,
-                'message' : "Image sucessfully Downloaded" + filename
+                'message' : "Image sucessfully Downloaded"
             }
             with open(file_name,'wb') as f:
                 shutil.copyfileobj(res.raw, f)
