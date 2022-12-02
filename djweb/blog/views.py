@@ -11,7 +11,7 @@ dbname = client['djweb']
 db_login = dbname['users_login']
 
 # vulnerable to NoSQL injection
-def nosql(request):
+'''def nosql(request):
     print(request)
     user = request.POST.get('user')
     password = request.POST.get('pass')
@@ -26,12 +26,27 @@ def nosql(request):
         }       
         return render(request, 'blog/nosql.html', context)
     else:
-        return render(request, 'blog/nosql.html')
+        return render(request, 'blog/nosql.html')'''
 
+def nosql(request):
+    login ={
+        "user" : request.POST.get('user'),
+        "password" : request.POST.get('pass')
+    }
+    print(login["user"])
+    print(login["password"])
+    if login:
+        result = db_login.count_documents(login)
+        if result >= 1:
+            return render(request, 'blog/nosql.html', {"result":"You are worthy!"})
+        else:
+            return render(request, 'blog/nosql.html', {"result":"Who are you?"})
+    
 # vulnerable to Account-takeover due to lack of validation
 def passwordreset(request):
     if request.user.is_authenticated:
         user = request.POST.get('user','')
+        old_password = request.POST.get('cpass')
         new_password = request.POST.get('npass','')
         print(user)
         print(new_password)
