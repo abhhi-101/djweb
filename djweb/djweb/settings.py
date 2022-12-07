@@ -91,10 +91,12 @@ DATABASES = {
 
 '''
 DATABASES = {
-    'default': {
+   'default' : {
         'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': True,
         'NAME': 'djweb',
-        
+        'HOST': 'mongo',
+        'PORT': 27017,
     }
 }
 
