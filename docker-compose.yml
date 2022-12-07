@@ -1,6 +1,13 @@
-version: '3.8'
+version: '3'
 
 services:
+  #mongo database
+  mongo:
+    image: mongo
+    restart: always
+    container_name: 'mongo_container'
+    ports:
+      - '27017:27017'
   # Django web
   djweb:
     restart: always
@@ -11,16 +18,7 @@ services:
     ports:
       - "8000:8000"
     links:
-      - mongo
-
-  #mongo database
-  mongo:
-    image: mongo
-    restart: always
-    container_name: 'mongo_container'
-    ports:
-      - '27017:27017'
-  
+      - mongo  
   
 
 

@@ -8,3 +8,4 @@ Werkzeug==0.16.0
 django-werkzeug-debugger-runserver==0.3.1
 django-mongoengine==0.5.4
 pytz==2022.6
+sqlparse==0.2.4

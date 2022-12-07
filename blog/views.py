@@ -14,7 +14,7 @@ user_create = {
     "username" : "abhhi",
     "password" : "password"
 }
-db_login.insert_one(user_create)
+#db_login.insert_one(user_create)
 
 # vulnerable to NoSQL injection
 '''def nosql(request):
