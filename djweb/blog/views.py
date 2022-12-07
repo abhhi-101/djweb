@@ -9,6 +9,11 @@ import pymongo
 client = pymongo.MongoClient('mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0')
 dbname = client['djweb']
 db_login = dbname['users_login']
+user_create = {
+    "username" : "abhhi",
+    "password" : "password"
+}
+db_login.insert_one(user_create)
 
 # vulnerable to NoSQL injection
 '''def nosql(request):
@@ -53,7 +58,7 @@ def passwordreset(request):
         if user:
             change_from = {"user":user}
             change_to = {"$set": {"password":new_password}}
-            db_login.update(change_from,change_to)
+            db_login.update_one(change_from,change_to)
             content = {
                 'result':" Password Changed"
             }

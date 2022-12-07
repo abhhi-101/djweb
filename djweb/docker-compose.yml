@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  #mongo database
+  db:
+    image: mongo:latest
+    restart: always
+    container_name: 'mongo_container'
+    environment:
+      - MONGO_INITDB_DATABASE=djweb
+    ports:
+      - '27017-27019:27017-27019'
+  
+  
+  # Django initial
+  backend:
+    image: django
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'django_container'
+    command: python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+    volumes:
+      - .:/django
+    ports:
+      - "8000:8000"
+    links:
+      - db
+
